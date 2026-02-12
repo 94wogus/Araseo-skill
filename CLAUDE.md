@@ -15,14 +15,15 @@ This repo is responsible for developing the `/araseo` skill, which enables Claud
 ## Role
 
 - Develop and maintain the `/araseo` Claude Code Skill
-- The skill takes AI conversation content as input and produces interactive visual mockups and diagrams
-- Integrate with the core Araseo pipeline (Parser → Renderer)
+- The skill instructs Claude to read markdown planning docs and write structured JSON for rendering
+- Integrate with the core Araseo pipeline (Claude reads & writes JSON via skill → Renderer)
 
 ## Core Pipeline (Parent Project)
 
-1. User converses with Claude, generating documents containing diagrams
-2. Parser converts documents (markdown/ASCII diagrams) into structured JSON
+1. User converses with Claude, producing a markdown planning document
+2. Claude reads the planning doc and writes structured JSON (via `/araseo` skill) — there is NO separate parser module
 3. Renderer transforms JSON into interactive flowcharts or UI mockups
+4. When the planning doc changes, Claude auto-converts to updated JSON → rendering auto-updates
 
 ## Repo Rules
 
@@ -35,6 +36,21 @@ This repo is responsible for developing the `/araseo` skill, which enables Claud
 - All directives and instructions in rules/CLAUDE.md MUST be written in English.
 - Examples and sample user expressions MUST be written in Korean.
   - e.g. "이 대화 내용을 목업으로 변환해줘"
+
+## Skill Creation Rules
+
+- Claude Code skills MUST be created inside this repo's `.claude/skills/` directory.
+- Skill file structure:
+  ```
+  .claude/skills/<skill-name>/
+  ├── SKILL.md           # Main instruction file (required)
+  ├── template.md        # Template for Claude to fill (optional)
+  ├── examples/          # Example outputs (optional)
+  └── scripts/           # Execution scripts (optional)
+  ```
+- Follow the [Claude Code Skills spec](https://code.claude.com/docs/en/skills) for SKILL.md format.
+- SKILL.md frontmatter fields: `name`, `description`, `argument-hint`, `allowed-tools`, `context`, `agent`, `model`
+- Skills are scoped to THIS repo only — never create skills in other repos.
 
 ## Status
 
