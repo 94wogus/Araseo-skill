@@ -1,0 +1,127 @@
+{
+  "graph": {
+    "directed": true,
+    "label": "문서 승인 프로세스",
+    "type": "flowchart",
+    "metadata": {
+      "description": "문서 제출 및 승인 워크플로우"
+    },
+    "nodes": {
+      "submit": {
+        "label": "문서 제출",
+        "metadata": {
+          "shape": "oval",
+          "color": "#4CAF50"
+        }
+      },
+      "review_1": {
+        "label": "1차 검토",
+        "metadata": {
+          "shape": "rectangle",
+          "color": "#2196F3"
+        }
+      },
+      "decision_1": {
+        "label": "검토 결과?",
+        "metadata": {
+          "shape": "diamond",
+          "color": "#FF9800"
+        }
+      },
+      "review_2": {
+        "label": "2차 승인",
+        "metadata": {
+          "shape": "rectangle",
+          "color": "#2196F3"
+        }
+      },
+      "decision_2": {
+        "label": "최종 승인?",
+        "metadata": {
+          "shape": "diamond",
+          "color": "#FF9800"
+        }
+      },
+      "publish": {
+        "label": "문서 게시",
+        "metadata": {
+          "shape": "oval",
+          "color": "#4CAF50"
+        }
+      },
+      "revise": {
+        "label": "수정 요청",
+        "metadata": {
+          "shape": "rectangle",
+          "color": "#F44336"
+        }
+      }
+    },
+    "edges": [
+      {
+        "source": "submit",
+        "target": "review_1",
+        "relation": "flows_to",
+        "directed": true
+      },
+      {
+        "source": "review_1",
+        "target": "decision_1",
+        "relation": "flows_to",
+        "directed": true
+      },
+      {
+        "source": "decision_1",
+        "target": "review_2",
+        "relation": "flows_to",
+        "directed": true,
+        "metadata": {
+          "label": "승인"
+        }
+      },
+      {
+        "source": "decision_1",
+        "target": "revise",
+        "relation": "flows_to",
+        "directed": true,
+        "metadata": {
+          "label": "반려"
+        }
+      },
+      {
+        "source": "review_2",
+        "target": "decision_2",
+        "relation": "flows_to",
+        "directed": true
+      },
+      {
+        "source": "decision_2",
+        "target": "publish",
+        "relation": "flows_to",
+        "directed": true,
+        "metadata": {
+          "label": "승인"
+        }
+      },
+      {
+        "source": "decision_2",
+        "target": "revise",
+        "relation": "flows_to",
+        "directed": true,
+        "metadata": {
+          "label": "반려"
+        }
+      },
+      {
+        "source": "revise",
+        "target": "submit",
+        "relation": "flows_to",
+        "directed": true,
+        "metadata": {
+          "label": "재제출",
+          "style": "dashed"
+        }
+      }
+    ]
+  }
+}

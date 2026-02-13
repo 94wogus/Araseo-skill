@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Flowchart Schema (JSON Graph Format)",
+  "description": "JSON Graph Format for flowcharts - based on https://jsongraphformat.info/",
+  "type": "object",
+  "required": ["graph"],
+  "properties": {
+    "graph": {
+      "type": "object",
+      "required": ["nodes", "edges"],
+      "properties": {
+        "directed": {
+          "type": "boolean",
+          "description": "Whether the graph is directed (default: true)",
+          "default": true
+        },
+        "label": {
+          "type": "string",
+          "description": "Display title for the flowchart"
+        },
+        "type": {
+          "type": "string",
+          "description": "Graph type (e.g., 'flowchart', 'diagram')",
+          "default": "flowchart"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Custom properties for the graph",
+          "additionalProperties": true
+        },
+        "nodes": {
+          "type": "object",
+          "description": "Dictionary of nodes keyed by unique node IDs",
+          "patternProperties": {
+            "^[a-zA-Z0-9_-]+$": {
+              "type": "object",
+              "required": ["label"],
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Display text for the node"
+                },
+                "metadata": {
+                  "type": "object",
+                  "description": "Custom properties (shape, color, position, etc.)",
+                  "properties": {
+                    "shape": {
+                      "type": "string",
+                      "enum": ["oval", "rectangle", "diamond", "parallelogram", "cylinder", "circle"],
+                      "description": "Node shape (oval=start/end, rectangle=process, diamond=decision)"
+                    },
+                    "color": {
+                      "type": "string",
+                      "description": "Node color (hex or named color)"
+                    },
+                    "x": {
+                      "type": "number",
+                      "description": "X coordinate for positioning"
+                    },
+                    "y": {
+                      "type": "number",
+                      "description": "Y coordinate for positioning"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "description": "Array of edges connecting nodes",
+          "items": {
+            "type": "object",
+            "required": ["source", "target"],
+            "properties": {
+              "source": {
+                "type": "string",
+                "description": "Source node ID"
+              },
+              "target": {
+                "type": "string",
+                "description": "Target node ID"
+              },
+              "relation": {
+                "type": "string",
+                "description": "Relationship type (e.g., 'flows_to', 'depends_on')",
+                "default": "flows_to"
+              },
+              "directed": {
+                "type": "boolean",
+                "description": "Whether this edge is directed (inherits from graph if omitted)"
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Custom properties (label, style, etc.)",
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "description": "Edge label (e.g., 'Yes', 'No', 'Success')"
+                  },
+                  "style": {
+                    "type": "string",
+                    "description": "Edge style (e.g., 'solid', 'dashed', 'dotted')"
+                  },
+                  "color": {
+                    "type": "string",
+                    "description": "Edge color"
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
