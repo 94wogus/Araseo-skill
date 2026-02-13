@@ -1,0 +1,105 @@
+{
+  "mockup": {
+    "version": "1.0",
+    "title": "로그인 페이지",
+    "metadata": {
+      "style": "wireframe",
+      "theme": "clean",
+      "device": "desktop"
+    },
+    "layout": {
+      "type": "single-page",
+      "sections": [
+        {
+          "id": "header",
+          "type": "header",
+          "components": [
+            {
+              "type": "navbar",
+              "items": [
+                {
+                  "text": "로고",
+                  "type": "logo",
+                  "align": "left"
+                },
+                {
+                  "text": "로그인",
+                  "type": "link",
+                  "href": "/login"
+                },
+                {
+                  "text": "도움말",
+                  "type": "link",
+                  "href": "/help"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "main",
+          "type": "main",
+          "components": [
+            {
+              "type": "heading",
+              "level": 1,
+              "text": "다시 오신 것을 환영합니다"
+            },
+            {
+              "type": "form",
+              "id": "login-form",
+              "fields": [
+                {
+                  "type": "input",
+                  "inputType": "email",
+                  "label": "이메일 주소",
+                  "placeholder": "your@email.com",
+                  "required": true
+                },
+                {
+                  "type": "input",
+                  "inputType": "password",
+                  "label": "비밀번호",
+                  "placeholder": "최소 8자 이상",
+                  "required": true
+                }
+              ],
+              "actions": [
+                {
+                  "type": "button",
+                  "text": "로그인",
+                  "variant": "primary"
+                }
+              ]
+            },
+            {
+              "type": "link",
+              "text": "비밀번호를 잊으셨나요?",
+              "href": "/forgot-password"
+            }
+          ]
+        },
+        {
+          "id": "footer",
+          "type": "footer",
+          "components": [
+            {
+              "type": "text",
+              "content": "© 2026 회사명"
+            },
+            {
+              "type": "link",
+              "text": "개인정보처리방침",
+              "href": "/privacy"
+            },
+            {
+              "type": "link",
+              "text": "이용약관",
+              "href": "/terms"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UI Mockup Schema",
+  "description": "JSON schema for UI mockups and wireframes - inspired by WireMD",
+  "type": "object",
+  "required": ["mockup"],
+  "properties": {
+    "mockup": {
+      "type": "object",
+      "required": ["title", "layout"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Schema version",
+          "default": "1.0"
+        },
+        "title": {
+          "type": "string",
+          "description": "Page or screen title"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Custom metadata for the mockup",
+          "properties": {
+            "style": {
+              "type": "string",
+              "enum": ["wireframe", "mockup", "prototype"],
+              "default": "wireframe"
+            },
+            "theme": {
+              "type": "string",
+              "description": "Visual theme (e.g., 'clean', 'material', 'ios')"
+            },
+            "device": {
+              "type": "string",
+              "enum": ["desktop", "mobile", "tablet"],
+              "default": "desktop"
+            }
+          },
+          "additionalProperties": true
+        },
+        "layout": {
+          "type": "object",
+          "required": ["sections"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["single-page", "multi-page", "modal", "component"],
+              "default": "single-page"
+            },
+            "sections": {
+              "type": "array",
+              "description": "Page sections (header, main, footer, sidebar, etc.)",
+              "items": {
+                "type": "object",
+                "required": ["id", "type", "components"],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique section identifier"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["header", "main", "footer", "sidebar", "modal", "section"],
+                    "description": "Section type"
+                  },
+                  "components": {
+                    "type": "array",
+                    "description": "UI components within this section",
+                    "items": {
+                      "type": "object",
+                      "required": ["type"],
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Component type (navbar, button, input, etc.)"
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

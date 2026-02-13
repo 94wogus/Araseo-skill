@@ -1,0 +1,92 @@
+{
+  "graph": {
+    "directed": true,
+    "label": "간단한 로그인 플로우",
+    "type": "flowchart",
+    "metadata": {
+      "description": "사용자 로그인 프로세스"
+    },
+    "nodes": {
+      "start": {
+        "label": "시작",
+        "metadata": {
+          "shape": "oval",
+          "color": "#4CAF50"
+        }
+      },
+      "input_credentials": {
+        "label": "자격증명 입력",
+        "metadata": {
+          "shape": "parallelogram",
+          "color": "#9C27B0"
+        }
+      },
+      "verify_auth": {
+        "label": "인증 확인",
+        "metadata": {
+          "shape": "rectangle",
+          "color": "#2196F3"
+        }
+      },
+      "decision": {
+        "label": "성공/실패?",
+        "metadata": {
+          "shape": "diamond",
+          "color": "#FF9800"
+        }
+      },
+      "dashboard": {
+        "label": "대시보드",
+        "metadata": {
+          "shape": "oval",
+          "color": "#4CAF50"
+        }
+      },
+      "error": {
+        "label": "에러 메시지",
+        "metadata": {
+          "shape": "oval",
+          "color": "#F44336"
+        }
+      }
+    },
+    "edges": [
+      {
+        "source": "start",
+        "target": "input_credentials",
+        "relation": "flows_to",
+        "directed": true
+      },
+      {
+        "source": "input_credentials",
+        "target": "verify_auth",
+        "relation": "flows_to",
+        "directed": true
+      },
+      {
+        "source": "verify_auth",
+        "target": "decision",
+        "relation": "flows_to",
+        "directed": true
+      },
+      {
+        "source": "decision",
+        "target": "dashboard",
+        "relation": "flows_to",
+        "directed": true,
+        "metadata": {
+          "label": "성공"
+        }
+      },
+      {
+        "source": "decision",
+        "target": "error",
+        "relation": "flows_to",
+        "directed": true,
+        "metadata": {
+          "label": "실패"
+        }
+      }
+    ]
+  }
+}
