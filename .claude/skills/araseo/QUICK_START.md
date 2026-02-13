@@ -1,6 +1,25 @@
-# /araseo Quick Start Guide
+# /araseo Quick Start Guide (Production-Ready)
 
-**TL;DR**: `/araseo <markdown-file>` converts planning documents to JSON for rendering.
+**TL;DR**: `/araseo <markdown-file>` converts planning documents to JSON and auto-displays in renderer.
+
+## What's New in Production Version
+
+✨ **Renderer Integration**: JSON saves directly to renderer's directory for instant visualization
+✨ **Auto-Reload**: Vite HMR detects changes and updates browser automatically
+✨ **Smart Filenames**: User-provided names or auto-generated from titles
+✨ **E2E Tested**: Complete end-to-end test scenarios verified
+
+## Prerequisites
+
+**To see visualizations:**
+1. Start renderer dev server:
+   ```bash
+   cd /Users/wogus/Wogus/Araseo/Araseo-renderer
+   npm run dev
+   ```
+2. Open browser: `http://localhost:5173`
+3. Run `/araseo` skill
+4. Watch visualization appear instantly!
 
 ## 30-Second Tutorial
 
@@ -101,9 +120,14 @@ Start → Process → Check → (fail) → Back to Start
    - Don't translate or romanize
 
 4. **Check output**:
-   - Output file: `<input-name>.json` (same directory)
+   - Output file: `/Users/wogus/Wogus/Araseo/Araseo-renderer/public/examples/<filename>.json`
    - Verify JSON is valid (no code fences)
    - Confirm schema matches template
+
+5. **View in renderer** (if dev server running):
+   - Open browser: `http://localhost:5173`
+   - Renderer auto-reloads when JSON changes
+   - See interactive visualization instantly
 
 ## Need More Examples?
 
