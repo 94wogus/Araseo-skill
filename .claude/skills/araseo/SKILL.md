@@ -183,12 +183,27 @@ See [templates/ui-mockup-schema.json](templates/ui-mockup-schema.json) for compl
 
 ## Conversion Process
 
-When you receive a markdown planning document via `$ARGUMENTS`:
+When you receive input via `$ARGUMENTS`:
 
-### Step 1: Read Input
+### Step 1: Parse Input
+
+**Two input modes:**
+
+**Mode A: File Path**
 ```
-Read the file: $ARGUMENTS
+$ARGUMENTS = "/path/to/planning-doc.md"
+→ Read the file using Read tool
 ```
+
+**Mode B: Inline Markdown Content**
+```
+$ARGUMENTS = "# Login Flow\n시작 → 로그인 화면 → ..."
+→ Use content directly (already in markdown format)
+```
+
+**Auto-detect:**
+- If $ARGUMENTS starts with "/" or contains ".md" → File path (use Read tool)
+- Otherwise → Inline markdown content (use directly)
 
 ### Step 2: Determine Type
 Analyze the content:
@@ -217,24 +232,103 @@ Analyze the content:
 - Include all required fields
 - Validate structure before output
 
-### Step 5: Write Output
+### Step 5: Determine Output Filename
+
+**File Naming Strategy:**
+
+**Option 1: User-Provided Filename**
+- User explicitly provides filename in conversation
+- Examples:
+  - "save as login-flow.json" → `login-flow.json`
+  - "call it my-mockup.json" → `my-mockup.json`
+  - "filename: auth-flowchart.json" → `auth-flowchart.json`
+
+**Option 2: Auto-Generate from Title**
+- Extract title from JSON (graph.label or mockup.title)
+- Convert to kebab-case
+- Add .json extension
+- Examples:
+  - "로그인 플로우" → `login-flow.json` (romanize Korean)
+  - "User Authentication Flow" → `user-authentication-flow.json`
+  - "로그인 페이지" → `login-page.json`
+
+**Romanization Rules for Korean:**
+- Use simple romanization (approximate English sounds)
+- 로그인 → login
+- 회원가입 → signup
+- 인증 → auth
+- 플로우 → flow
+- 페이지 → page
+
+**Default Fallback:**
+- If no title and no user-provided name → `generated-<timestamp>.json`
+- Example: `generated-1707825600.json`
+
+### Step 6: Write Output
 
 **Critical**: Output raw JSON only, NO markdown code fences.
 
-Write to file: `<input-filename-without-extension>.json`
+**Output Directory**: `/Users/wogus/Wogus/Araseo/Araseo-renderer/public/examples/`
 
-Example:
-- Input: `planning-doc.md`
-- Output: `planning-doc.json`
+**Full output path**: `/Users/wogus/Wogus/Araseo/Araseo-renderer/public/examples/<filename>.json`
 
-### Step 6: Confirm
+**Write Process:**
+1. Generate valid JSON (validate syntax)
+2. Write to output path using Write tool
+3. Verify file was created successfully
+
+**Auto-Reload Integration**: When you save to this directory, Vite HMR will detect the change and automatically reload the renderer in the browser.
+
+### Step 7: Confirm
 
 Report to user:
 ```
 ✓ Converted planning document to JSON
-  Input:  <input-file-path>
-  Output: <output-file-path>
+  Output: /Users/wogus/Wogus/Araseo/Araseo-renderer/public/examples/<filename>.json
   Type:   flowchart | ui-mockup
+
+  → Renderer will auto-reload and display the visualization
+  → Open http://localhost:5173 to view (if dev server is running)
+```
+
+## E2E Integration & Testing
+
+### Integration with Renderer
+
+**How it works:**
+1. You save JSON to `/Users/wogus/Wogus/Araseo/Araseo-renderer/public/examples/<filename>.json`
+2. Vite dev server (if running) detects file change via HMR
+3. Renderer automatically reloads and displays the visualization
+4. User sees updated flowchart or UI mockup instantly
+
+**Prerequisites:**
+- Renderer dev server must be running: `cd /Users/wogus/Wogus/Araseo/Araseo-renderer && npm run dev`
+- Browser open at `http://localhost:5173`
+- Renderer configured to load from `public/examples/` directory
+
+**Testing the Integration:**
+
+After saving JSON, you can verify integration by:
+1. Check file exists: `ls -la /Users/wogus/Wogus/Araseo/Araseo-renderer/public/examples/<filename>.json`
+2. Validate JSON syntax: `cat <file> | jq .` (if jq installed)
+3. Confirm renderer picks it up (check browser network tab or console)
+
+**Example E2E Flow:**
+
+```bash
+# User provides markdown planning doc
+User: "이 로그인 플로우 기획서를 flowchart로 변환해줘"
+
+# You invoke /araseo skill
+/araseo [markdown-content-or-file]
+
+# Skill converts to JSON
+# Saves to: /Users/wogus/Wogus/Araseo/Araseo-renderer/public/examples/login-flow.json
+
+# Renderer auto-reloads
+# User sees flowchart visualization in browser
+
+# Success! E2E integration complete.
 ```
 
 ## Tips for Quality Conversions
