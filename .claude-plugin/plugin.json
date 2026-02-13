@@ -1,0 +1,22 @@
+{
+  "name": "araseo",
+  "description": "Convert AI conversation diagrams and planning documents into interactive visual mockups and flowcharts. Supports markdown → JSON conversion for both flowcharts (JSON Graph Format) and UI wireframes.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Araseo Team",
+    "url": "https://github.com/94wogus"
+  },
+  "homepage": "https://github.com/94wogus/Araseo",
+  "repository": "https://github.com/94wogus/Araseo-skill",
+  "license": "MIT",
+  "keywords": [
+    "flowchart",
+    "diagram",
+    "mockup",
+    "wireframe",
+    "visualization",
+    "markdown",
+    "json",
+    "planning"
+  ]
+}
